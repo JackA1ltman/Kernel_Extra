@@ -84,10 +84,6 @@ CAN_UMOUNT = static int can_umount(const struct path *path, int flags)\n\
 $(shell sed -i '/^static bool is_mnt_ns_file/i $(CAN_UMOUNT)' $(srctree)/fs/namespace.c;)
 endif
 
-ifneq ($(shell grep -q "get_cred_rcu" $(srctree)/include/linux/cred.h; echo $$?),0)
-$(error You must backport get_cred_rcu - https://github.com/tiann/KernelSU/pull/2320#issuecomment-2564232958 )
-endif
-
 ifneq ($(shell grep -Eq "^int path_umount" $(srctree)/fs/namespace.c; echo $$?),0)
 $(info -- KSU_SUSFS: adding function 'int path_umount(struct path *path, int flags);' to $(srctree)/fs/namespace.c)
 PATH_UMOUNT = int path_umount(struct path *path, int flags)\n\

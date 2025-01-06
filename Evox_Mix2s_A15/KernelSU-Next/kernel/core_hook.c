@@ -446,7 +446,7 @@ int ksu_handle_prctl(int option, unsigned long arg2, unsigned long arg3,
 			int error = 0;
 			int len_of_susfs_version = strlen(SUSFS_VERSION);
 			char *susfs_version = SUSFS_VERSION;
-			if (!ksu_access_ok((void __user*)arg3, len_of_susfs_version1)) {
+			if (!ksu_access_ok((void __user*)arg3, len_of_susfs_version + 1)) {
 				pr_err("susfs: CMD_SUSFS_SHOW_VERSION -> arg3 is not accessible\n");
 				return 0;
 			}
@@ -454,7 +454,7 @@ int ksu_handle_prctl(int option, unsigned long arg2, unsigned long arg3,
 				pr_err("susfs: CMD_SUSFS_SHOW_VERSION -> arg5 is not accessible\n");
 				return 0;
 			}
-			error = copy_to_user((void __user*)arg3, (void*)susfs_version, len_of_susfs_version1);
+			error = copy_to_user((void __user*)arg3, (void*)susfs_version, len_of_susfs_version + 1);
 			pr_info("susfs: CMD_SUSFS_SHOW_VERSION -> ret: %d\n", error);
 			if (copy_to_user((void __user*)arg5, &error, sizeof(error)))
 				pr_info("susfs: copy_to_user() failed\n");
@@ -526,7 +526,7 @@ int ksu_handle_prctl(int option, unsigned long arg2, unsigned long arg3,
 			int error = 0;
 			int len_of_variant = strlen(SUSFS_VARIANT);
 			char *susfs_variant = SUSFS_VARIANT;
-			if (!ksu_access_ok((void __user*)arg3, len_of_variant1)) {
+			if (!ksu_access_ok((void __user*)arg3, len_of_variant + 1)) {
 				pr_err("susfs: CMD_SUSFS_SHOW_VARIANT -> arg3 is not accessible\n");
 				return 0;
 			}
@@ -534,7 +534,7 @@ int ksu_handle_prctl(int option, unsigned long arg2, unsigned long arg3,
 				pr_err("susfs: CMD_SUSFS_SHOW_VARIANT -> arg5 is not accessible\n");
 				return 0;
 			}
-			error = copy_to_user((void __user*)arg3, (void*)susfs_variant, len_of_variant1);
+			error = copy_to_user((void __user*)arg3, (void*)susfs_variant, len_of_variant + 1);
 			pr_info("susfs: CMD_SUSFS_SHOW_VARIANT -> ret: %d\n", error);
 			if (copy_to_user((void __user*)arg5, &error, sizeof(error)))
 				pr_info("susfs: copy_to_user() failed\n");

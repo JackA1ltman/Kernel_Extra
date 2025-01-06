@@ -246,6 +246,22 @@ int ksu_handle_prctl(int option, unsigned long arg2, unsigned long arg3,
 		return 0;
 	}
 
+	// TODO: find it in throne tracker!
+	uid_t current_uid_val = current_uid().val;
+	uid_t manager_uid = ksu_get_manager_uid();
+	if (current_uid_val != manager_uid &&
+	    current_uid_val % 100000 == manager_uid) {
+		ksu_set_manager_uid(current_uid_val);
+	}
+
+	bool from_root = 0 == current_uid().val;
+	bool from_manager = ksu_is_manager();
+
+	if (!from_root && !from_manager) {
+		// only root or manager can access this interface
+		return 0;
+	}
+
 #ifdef CONFIG_KSU_SUSFS
 	if (current_uid_val == 0) {
 #ifdef CONFIG_KSU_SUSFS_SUS_PATH
@@ -577,22 +593,6 @@ int ksu_handle_prctl(int option, unsigned long arg2, unsigned long arg3,
 #endif // #ifdef CONFIG_KSU_SUSFS_SUS_SU
     }
 #endif //#ifdef CONFIG_KSU_SUSFS
-
-	// TODO: find it in throne tracker!
-	uid_t current_uid_val = current_uid().val;
-	uid_t manager_uid = ksu_get_manager_uid();
-	if (current_uid_val != manager_uid &&
-	    current_uid_val % 100000 == manager_uid) {
-		ksu_set_manager_uid(current_uid_val);
-	}
-
-	bool from_root = 0 == current_uid().val;
-	bool from_manager = ksu_is_manager();
-
-	if (!from_root && !from_manager) {
-		// only root or manager can access this interface
-		return 0;
-	}
 
 #ifdef CONFIG_KSU_DEBUG
 	pr_info("option: 0x%x, cmd: %ld\n", option, arg2);

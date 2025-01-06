@@ -73,7 +73,7 @@ extern int ksu_handle_sepolicy(unsigned long arg3, void __user *arg4);
 
 static inline bool is_allow_su()
 {
-	if (is_manager()) {
+	if (ksu_is_manager()) {
 		// we are manager, allow!
 		return true;
 	}

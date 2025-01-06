@@ -626,6 +626,7 @@ out_ksu_try_umount:
 	
 	// try umount hosts file
 	try_umount("/system/etc/hosts", false, MNT_DETACH);
+#endif
 
 	return 0;
 }

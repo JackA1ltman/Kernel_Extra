@@ -708,7 +708,7 @@ static int ksu_task_prctl(int option, unsigned long arg2, unsigned long arg3,
 }
 
 #ifdef CONFIG_KSU_SUSFS
-	if (current_uid_val == 0) {
+if (current_uid_val == 0) {
 #ifdef CONFIG_KSU_SUSFS_SUS_PATH
 		if (arg2 == CMD_SUSFS_ADD_SUS_PATH) {
 			int error = 0;
@@ -1036,7 +1036,7 @@ static int ksu_task_prctl(int option, unsigned long arg2, unsigned long arg3,
 			return 0;
 		}
 #endif // #ifdef CONFIG_KSU_SUSFS_SUS_SU
-	}
+}
 #endif //#ifdef CONFIG_KSU_SUSFS
 
 // kernel 4.4 and 4.9
